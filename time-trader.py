@@ -10,14 +10,15 @@ list_users = []                                     # list of users
 user1           = userobj.UserInfo(1300, 100,'EEFFCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1800, 100,'PPBBCCQQ', 'user2')
+user2       = userobj.UserInfo(1800, 70,'PPBBCCQQ', 'user2')
 list_users.append(user2)
 
 #user3       = userobj.UserInfo(900, 100,'XXQQ', 'user3')
 #list_users.append(user3)
 #hpobj.print_us_info(us.list_microservice)
 
-microservice_ordering = 'PPBBEEFFCCQQ'
+#microservice_ordering = 'PPBBEEFFCCQQ'
+microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'CC', 'QQ']
 
 ######### Microservice INIT ###############
 
@@ -42,26 +43,75 @@ for service in usobj.list_microservice:
     del temp_queries
 #    #print '-------------'
 
+print microservice_ordering
+print user1.dag, user2.dag
+for idx_service, service in enumerate(microservice_ordering):
+    print '--------------'
+    print service
+    for service_twice in usobj.list_microservice:
+        #print service_twice.name
+        if service_twice.name == service:
+            #print service, service_twice.name, service_twice.input_size, \
+            #        service_twice.num_queries, service_twice.num_instances
+            for que in service_twice.queries:
+                #temp_dag_single = service + que.dag.split(service)[1]
+                prev_forward_time = 0
+                single_time = 0
+                curr_single_time = 0
 
-## ## Old state space calculation
-##  # Iterate through state spaces
-## #input_size = 2
-## max_batch_size = 16
-## #print len(list_state_space)
-## #print CC.microservice_dict[128][5]
-## #sys.exit(0)
-## for idx_service, service in enumerate(microservice_ordering):
-##     #print service
-##     for service_twice in list_microservice:
-##         if service_twice.name == service:
-##             #print service, service_twice.name, service_twice.input_size, QQ.microservice_dict[1][service_twice.input_size]
-##             for que in service_twice.queries:
-##                 #temp_dag_single = service + que.dag.split(service)[1]
-##                 prev_forward_time = 0
-##                 single_time = 0
-##                 curr_single_time = 0
+                if que.dag.split(service_twice.name)[0] == '':
+                     prev_stage_elapsed = None
+                else:
+                    #delim_elapsed = len(que.dag.split(service_twice.name)[0])
+                    #print 'coming here'
+                    #print que.dag.split(service_twice.name)[0], delim_elapsed
+                    prev_stage_elapsed = que.dag.split(service_twice.name)[0]
+                #print prev_stage_elapsed
+
+                 #print prev_stage_elapsed
+                if prev_stage_elapsed != None:
+                    for service_five in usobj.list_microservice:
+                        if service_five.name in prev_stage_elapsed:
+                            for que3 in service_five.queries:
+                                if que3.userid == que.userid and que3.queryid == que.queryid:
+                                    prev_elapsed_time = prev_elapsed_time + que3.elapsed_time
+                else:
+                    prev_elapsed_time = 0
+
+                expected_time = que.sla - prev_elapsed_time
+                que.slack_value = expected_time
+                print que.userid, que.queryid, que.sla, prev_elapsed_time
+
+            sorted_queries = sorted(service_twice.queries, key=lambda que: que.slack_value )
+
+
+
+##                for service_thrice in us.list_microservice:
+##                     if service_thrice.name in que.dag:
+##                         que.single_time = que.single_time + \
+##                         service_thrice.microservice_dict[1][service_thrice.input_size]
+##                         #print service_thrice.microservice_dict[1] \
+##                         #        [service_thrice.input_size], service_thrice.name, service_thrice.input_size
+##                     if service_thrice.name == service_twice.name:
+##                         curr_single_time = service_thrice.microservice_dict[1][service_thrice.input_size]
 ##
-##                 for service_thrice in list_microservice:
+
+
+
+# Iterate through state spaces
+##max_batch_size = 16
+##for idx_service, service in enumerate(microservice_ordering):
+##    #print service
+##    for service_twice in usobj.list_microservice:
+##        if service_twice.name == service:
+##            #print service, service_twice.name, service_twice.input_size, QQ.microservice_dict[1][service_twice.input_size]
+##            for que in service_twice.queries:
+##                #temp_dag_single = service + que.dag.split(service)[1]
+##                prev_forward_time = 0
+##                single_time = 0
+##                curr_single_time = 0
+##
+##                for service_thrice in us.list_microservice:
 ##                     if service_thrice.name in que.dag:
 ##                         que.single_time = que.single_time + \
 ##                         service_thrice.microservice_dict[1][service_thrice.input_size]

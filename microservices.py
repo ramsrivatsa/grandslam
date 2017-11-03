@@ -3,7 +3,6 @@ import json
 import numpy as np
 
 class MicroService:
-    queries = []
     def __init__(self, microservice_dict,name, bmax, iprange):
         self.microservice_dict      = microservice_dict
         self.name                   = name
@@ -12,28 +11,8 @@ class MicroService:
     microservice_data_dict = defaultdict(lambda  : defaultdict(list))
     num_queries = 0
     input_size = 999
-
-
-
-class Query:
-    def __init__(self, userid, batchsize, order, queryid, dag,sla):
-        self.userid         = userid
-        self.batch_size     = batchsize
-        self.order          = order
-        self.queryid        = queryid
-        self.dag            = dag
-        self.sla            = sla
-    single_time             = 0     #should reset
-    slack_value             = 0
-    elapsed_time            = 0
-
-
-class UserInfo:
-    def __init__(self, sla, freq, dag, userid):
-        self.sla    = sla
-        self.freq   = freq
-        self.dag    = dag
-        self.userid = userid
+    queries = []
+    num_instances = 1
 
 ####### Common data structures #########
 list_microservice = []
@@ -420,6 +399,17 @@ list_microservice.append(GG)
 service_data.clear()
 service_mean.clear()
 service_std.clear()
+
+
+AA.input_size = 54
+BB.input_size = 70
+CC.input_size = 1
+PP.input_size = 128
+QQ.input_size = 54
+DD.input_size = 128
+EE.input_size = 128
+FF.input_size = 128
+GG.input_size = 128
 
 
 #for idx,item in enumerate(list_microservice):
