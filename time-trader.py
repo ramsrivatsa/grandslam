@@ -1,16 +1,18 @@
+from collections import defaultdict
 import microservices as usobj
 import helpers as hpobj
 import users as userobj
 import queries as queobj
+import bisect
 
 ######### User INIT ###############
 num_user = 2                                        # number of users
 list_users = []                                     # list of users
 
-user1           = userobj.UserInfo(1300, 100,'EEFFCC','user1')
+user1           = userobj.UserInfo(50, 10,'EEFFCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1800, 70,'PPBBCCQQ', 'user2')
+user2       = userobj.UserInfo(40, 7,'PPBBCCQQ', 'user2')
 list_users.append(user2)
 
 #user3       = userobj.UserInfo(900, 100,'XXQQ', 'user3')
@@ -47,10 +49,12 @@ print microservice_ordering
 print user1.dag, user2.dag
 for idx_service, service in enumerate(microservice_ordering):
     print '--------------'
-    print service
+    #print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
+            print service_twice.name, service_twice.alias, \
+                    service_twice.iprange[len(service_twice.iprange)-1]
             #print service, service_twice.name, service_twice.input_size, \
             #        service_twice.num_queries, service_twice.num_instances
             for que in service_twice.queries:
@@ -80,9 +84,67 @@ for idx_service, service in enumerate(microservice_ordering):
 
                 expected_time = que.sla - prev_elapsed_time
                 que.slack_value = expected_time
-                print que.userid, que.queryid, que.sla, prev_elapsed_time
+                #print que.userid, que.queryid, que.sla, prev_elapsed_time
 
             sorted_queries = sorted(service_twice.queries, key=lambda que: que.slack_value )
+            for item in sorted_queries:
+                print item.userid, item.queryid
+
+            temp_query_list = sorted_queries
+            num_instances = service_twice.num_instances
+            cut_lim = 1
+            print '----------------------------------------------'
+
+
+            for temp_idx in xrange(0,num_instances):
+                temp_slice_list = temp_query_list[temp_idx::num_instances]
+                print 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                #print num_instances
+                #print service_twice.name, service_twice.iprange[len(service_twice.iprange)-1]
+                # change this to a while loop and call it off!
+                #for item in temp_slice_list:
+                while temp_slice_list:
+                    print '*********'
+                    #implement all the functions here
+                    getbatch_dict = defaultdict(lambda  : defaultdict(float))
+                    getbatch_list = []
+                    for key,value in service_twice.microservice_dict.iteritems():
+                        getbatch_dict[key] = service_twice.microservice_dict[key]\
+                                [service_twice.iprange[len(service_twice.iprange)-1]]
+                        getbatch_list.append(service_twice.microservice_dict[key][service_twice.iprange[len(service_twice.iprange)-1]])
+                    index = bisect.bisect(getbatch_list, temp_slice_list[0].slack_value)
+                    if index == 0:
+                        index = 1
+                    print index, len(getbatch_list), getbatch_list[index-1],\
+                            len(temp_slice_list), temp_slice_list[0].slack_value
+
+
+                    if index > len(temp_slice_list):
+                        index = len(temp_slice_list)
+                    print index, len(getbatch_list), temp_slice_list[0].\
+                            slack_value, getbatch_list[index-1]
+
+                    for item in temp_slice_list[0:index]:
+                        print item.userid, item.queryid, item.sla, index
+
+                    del temp_slice_list[0:index]
+
+                    #if getbatch_list[index-1] > temp_slice_list[0].slack_value:
+                    #    del temp_slice_list[:]
+                    #if index >= len(temp_slice_list):
+                    #    ## batch everything completely
+                    #    del temp_slice_list[:]
+                    #else:
+                    #    del temp_slice_list[0:index-1]
+                    #print item.userid, item.queryid, item.sla, index, getbatch_list[index-1]
+
+                        #print key,service_twice.microservice_dict[key][128]
+                    #print temp_dict
+                    #target = 93.49
+                    #key2, value2 = min(dict.items(), key=lambda (_, v): abs(v - target))
+                    #print key2,value2
+                    #print microservice_dict[key2][value2]
+
 
 
 

@@ -3,16 +3,17 @@ import json
 import numpy as np
 
 class MicroService:
-    def __init__(self, microservice_dict,name, bmax, iprange):
+    def __init__(self, microservice_dict,name, bmax, iprange, alias):
         self.microservice_dict      = microservice_dict
         self.name                   = name
         self.bmax                   = bmax
         self.iprange                = iprange
+        self.alias                = alias
     microservice_data_dict = defaultdict(lambda  : defaultdict(list))
     num_queries = 0
     input_size = 999
     queries = []
-    num_instances = 1
+    num_instances = 3
 
 ####### Common data structures #########
 list_microservice = []
@@ -61,7 +62,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         aa[x][y] = service_mean['asr'][x][y]
-AA      =   MicroService(aa,'AA', brange, ilist)
+AA      =   MicroService(aa,'AA', brange, ilist, 'asr')
 AA.microservice_data_dict = service_data['asr']
 list_microservice.append(AA)
 #print(json.dumps(service_data['asr'], indent = 4))
@@ -120,7 +121,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         bb[x][y] = service_mean['pos'][x][y] + service_mean['chk'][x][y] +  service_mean['ner'][x][y]
-BB      =   MicroService(bb, 'BB', brange, ilist)
+BB      =   MicroService(bb, 'BB', brange, ilist, 'nlu')
 BB.microservice_data_dict = bb
 list_microservice.append(BB)
 
@@ -166,7 +167,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         cc[x][y] = service_mean['qa'][x][y]
-CC      =   MicroService(cc, 'CC', brange, ilist)
+CC      =   MicroService(cc, 'CC', brange, ilist, 'qa')
 CC.microservice_data_dict = service_data['qa']
 list_microservice.append(CC)
 
@@ -206,7 +207,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         pp[x][y] = service_mean['imc'][x][y]
-PP      =   MicroService(pp, 'PP', brange, ilist)
+PP      =   MicroService(pp, 'PP', brange, ilist, 'imc')
 PP.microservice_data_dict = service_data['imc']
 list_microservice.append(PP)
 
@@ -224,7 +225,7 @@ ilist = [54]
 for x in range(1, brange+1):
     for y in ilist:
         qq[x][y] =aa[x][y]
-QQ      =   MicroService(qq, 'QQ', brange, ilist)
+QQ      =   MicroService(qq, 'QQ', brange, ilist, 'tts')
 #print type(QQ.microservice_dict[1][54])
 QQ.microservice_data_dict = AA.microservice_data_dict
 list_microservice.append(QQ)
@@ -267,7 +268,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         dd[x][y] = service_mean['ap'][x][y]
-DD      =   MicroService(dd, 'DD', brange, ilist)
+DD      =   MicroService(dd, 'DD', brange, ilist, 'ap')
 DD.microservice_data_dict = service_data['ap']
 list_microservice.append(DD)
 
@@ -309,7 +310,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         ee[x][y] = service_mean['faced'][x][y]
-EE      =   MicroService(ee, 'EE', brange, ilist)
+EE      =   MicroService(ee, 'EE', brange, ilist, 'faced')
 EE.microservice_data_dict = service_data['faced']
 list_microservice.append(EE)
 
@@ -351,7 +352,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         ff[x][y] = service_mean['facer'][x][y]
-FF      =   MicroService(ff, 'FF', brange, ilist)
+FF      =   MicroService(ff, 'FF', brange, ilist, 'facerec')
 FF.microservice_data_dict = service_data['facer']
 list_microservice.append(FF)
 
@@ -392,7 +393,7 @@ for x,a in service_data.iteritems():
 for x in range(1, brange+1):
     for y in ilist:
         gg[x][y] = service_mean['hs'][x][y]
-GG      =   MicroService(gg, 'GG', brange, ilist)
+GG      =   MicroService(gg, 'GG', brange, ilist, 'hs')
 GG.microservice_data_dict = service_data['hs']
 list_microservice.append(GG)
 
