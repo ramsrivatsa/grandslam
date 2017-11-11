@@ -10,4 +10,5 @@ class Query:
     slack_value             = 0
     elapsed_time            = 0
     forward_time            = 0
+    cumilative_time         = 0
 

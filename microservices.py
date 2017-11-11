@@ -13,7 +13,7 @@ class MicroService:
     num_queries = 0
     input_size = 999
     queries = []
-    num_instances = 3
+    num_instances = 1
 
 ####### Common data structures #########
 list_microservice = []
@@ -366,8 +366,8 @@ service_std.clear()
 '''
 ## Simulator Data
 gg = defaultdict(lambda  : defaultdict(int))
-brange = 128
-ilist = [64, 128, 256]
+brange = 32
+ilist = [64, 128]
 fList = [s.strip() for s in open('/home/ram/api-as-service/grand-slam/paper-results/services/face-recognition/latency.txt').readlines()]
 
 appname = 'hs'
@@ -410,7 +410,7 @@ QQ.input_size = 54
 DD.input_size = 128
 EE.input_size = 128
 FF.input_size = 128
-GG.input_size = 128
+GG.input_size = 64
 
 
 #for idx,item in enumerate(list_microservice):

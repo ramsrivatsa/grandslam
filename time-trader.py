@@ -9,18 +9,19 @@ import bisect
 num_user = 2                                        # number of users
 list_users = []                                     # list of users
 
-user1           = userobj.UserInfo(500, 10,'EEFFCC','user1')
+user1           = userobj.UserInfo(1500, 150,'AAPP','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(400, 7,'PPBBCCQQ', 'user2')
+user2       = userobj.UserInfo(1500, 100,'EEPP', 'user2')
 list_users.append(user2)
 
-user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
-list_users.append(user3)
+#user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
+#list_users.append(user3)
 #hpobj.print_us_info(us.list_microservice)
 
 #microservice_ordering = 'PPBBEEFFCCQQ'
-microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'AA' , 'CC', 'QQ', 'GG']
+#microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'AA' , 'CC', 'QQ', 'GG']
+microservice_ordering = ['AA', 'EE', 'PP']
 
 ######### Microservice INIT ###############
 
@@ -46,10 +47,12 @@ for service in usobj.list_microservice:
 #    #print '-------------'
 
 print microservice_ordering
-print user1.dag, user2.dag, user3.dag
+for temp_var in list_users:
+    print temp_var.userid, temp_var.dag
+#print user1.dag, user2.dag, user3.dag
 for idx_service, service in enumerate(microservice_ordering):
-    #print '----------------------------------------------'
-    #print service
+    print '----------------------------------------------'
+    print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
@@ -85,7 +88,7 @@ for idx_service, service in enumerate(microservice_ordering):
                 else:
                     prev_elapsed_time = 0
                 que.slack_value = que.sla - prev_elapsed_time
-                #print que.userid, que.queryid, que.sla, que.slack_value,  prev_elapsed_time
+                print que.userid, que.queryid, que.sla, que.slack_value,  prev_elapsed_time
 
             sorted_queries = sorted(service_twice.queries, key=lambda que: que.slack_value )
             #for item in sorted_queries:
@@ -98,13 +101,14 @@ for idx_service, service in enumerate(microservice_ordering):
 
             for temp_idx in xrange(0,num_instances):
                 temp_slice_list = temp_query_list[temp_idx::num_instances]
-                #print 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+                print 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
                 #print num_instances
                 #print service_twice.name, service_twice.iprange[len(service_twice.iprange)-1]
                 # change this to a while loop and call it off!
                 #for item in temp_slice_list:
+                total_elapsed_time = 0
                 while temp_slice_list:
-                    #print '*********'
+                    print '*********'
                     #implement all the functions here
                     getbatch_dict = defaultdict(lambda  : defaultdict(float))
                     getbatch_list = []
@@ -112,27 +116,58 @@ for idx_service, service in enumerate(microservice_ordering):
                         getbatch_dict[key] = service_twice.microservice_dict[key]\
                                 [service_twice.iprange[len(service_twice.iprange)-1]]
                         getbatch_list.append(service_twice.microservice_dict[key][service_twice.iprange[len(service_twice.iprange)-1]])
-                    index = bisect.bisect(getbatch_list, temp_slice_list[0].slack_value)
+                    curr_slack_value = temp_slice_list[0].slack_value - total_elapsed_time
+                    index = bisect.bisect(getbatch_list, curr_slack_value)
                     if index == 0:
                         index = 1
-                    #print index, len(getbatch_list), getbatch_list[index-1],\
-                    #        len(temp_slice_list), temp_slice_list[0].slack_value
+                    print index, len(getbatch_list), getbatch_list[index-1],\
+                            len(temp_slice_list), temp_slice_list[0].slack_value
 
 
                     if index > len(temp_slice_list):
                         index = len(temp_slice_list)
-                    #print index, len(getbatch_list), temp_slice_list[0].\
-                    #        slack_value, getbatch_list[index-1]
+                    print index, len(getbatch_list), temp_slice_list[0].\
+                            slack_value, curr_slack_value, getbatch_list[index-1]
 
                     #for item in temp_slice_list[0:index]:
                     #    print item.userid, item.queryid, item.sla, index
 
                     ##assigning values for the forward run
+                    total_elapsed_time = total_elapsed_time + getbatch_list[index-1]
                     for item in temp_slice_list[0:index]:
-                        #print item.userid, item.queryid, item.sla, index,\
-                        #        item.elapsed_time, getbatch_list[index-1]
+
+                        if item.dag.split(service_twice.name)[0] == '':
+                             prev_stages = None
+                        else:
+                            #delim_elapsed = len(que.dag.split(service_twice.name)[0])
+                            #print 'coming here'
+                            #print que.dag.split(service_twice.name)[0], delim_elapsed
+                            prev_stages = item.dag.split(service_twice.name)[0]
+                        #print prev_stages
+
+                        #print prev_stage_elapsed
+                        temp_cumilative_time = 0
+                        if prev_stages != None:
+                            for service_seven in usobj.list_microservice:
+                                if service_seven.name in prev_stages:
+                                    #print service_five.name
+                                    for que4 in service_seven.queries:
+                                        if que4.userid == item.userid and que4.queryid == item.queryid:
+                                            #print que3.elapsed_time
+                                            #prev_forward_time = que3.forward_time
+                                            temp_cumilative_time = temp_cumilative_time +\
+                                                    que4.elapsed_time
+                        else:
+                            temp_cumilative_time = 0
+
                         item.batch_size = index
-                        item.elapsed_time = getbatch_list[index-1]
+                        item.elapsed_time = total_elapsed_time
+                        item.cumilative_time = total_elapsed_time +  temp_cumilative_time
+
+                        print item.userid, item.queryid, item.sla, index,\
+                                item.elapsed_time, getbatch_list[index-1],\
+                                total_elapsed_time
+
                     del temp_slice_list[0:index]
 
 
@@ -161,4 +196,4 @@ for idx_service, service in enumerate(microservice_ordering):
         if service_twice.name == service:
             print service_twice.name
             for que in service_twice.queries:
-                print que.userid, que.queryid, que.sla, que.batch_size, que.slack_value,  que.elapsed_time
+                print que.userid, que.queryid, que.sla, que.batch_size, que.slack_value,  que.elapsed_time, que.cumilative_time
