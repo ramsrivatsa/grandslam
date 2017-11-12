@@ -11,4 +11,5 @@ class Query:
     elapsed_time            = 0
     forward_time            = 0
     cumilative_time         = 0
+    queueing_time           = 0
 

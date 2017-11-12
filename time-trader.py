@@ -6,14 +6,33 @@ import queries as queobj
 import bisect
 
 ######### User INIT ###############
-num_user = 2                                        # number of users
+num_user = 4                                        # number of users
 list_users = []                                     # list of users
 
-user1           = userobj.UserInfo(1500, 150,'AAPP','user1')
+##user1           = userobj.UserInfo(800, 10,'PPBBCC','user1')
+##list_users.append(user1)
+##
+##user2       = userobj.UserInfo(600, 5,'EEFF', 'user2')
+##list_users.append(user2)
+##
+##user3       = userobj.UserInfo(1500, 7,'DDBBCC', 'user3')
+##list_users.append(user3)
+##
+##user4       = userobj.UserInfo(600, 13,'GGDDEEFF', 'user4')
+##list_users.append(user4)
+
+
+user1           = userobj.UserInfo(2500, 43,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1500, 100,'EEPP', 'user2')
+user2       = userobj.UserInfo(1200, 40,'EEFF', 'user2')
 list_users.append(user2)
+
+user3       = userobj.UserInfo(1900, 35,'DDBBCC', 'user3')
+list_users.append(user3)
+
+user4       = userobj.UserInfo(1300, 75,'GGDDEEFF', 'user4')
+list_users.append(user4)
 
 #user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
 #list_users.append(user3)
@@ -21,7 +40,8 @@ list_users.append(user2)
 
 #microservice_ordering = 'PPBBEEFFCCQQ'
 #microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'AA' , 'CC', 'QQ', 'GG']
-microservice_ordering = ['AA', 'EE', 'PP']
+#microservice_ordering = ['AA', 'EE', 'PP']
+microservice_ordering = ['PP', 'DD', 'BB', 'CC', 'EE' , 'FF']
 
 ######### Microservice INIT ###############
 
@@ -115,7 +135,7 @@ for idx_service, service in enumerate(microservice_ordering):
                     for key,value in service_twice.microservice_dict.iteritems():
                         getbatch_dict[key] = service_twice.microservice_dict[key]\
                                 [service_twice.iprange[len(service_twice.iprange)-1]]
-                        getbatch_list.append(service_twice.microservice_dict[key][service_twice.iprange[len(service_twice.iprange)-1]])
+                        getbatch_list.append(service_twice.microservice_dict[key][service_twice.input_size])
                     curr_slack_value = temp_slice_list[0].slack_value - total_elapsed_time
                     index = bisect.bisect(getbatch_list, curr_slack_value)
                     if index == 0:

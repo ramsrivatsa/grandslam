@@ -4,26 +4,43 @@ import helpers as hpobj
 import users as userobj
 import queries as queobj
 import bisect
+import numpy as np
 
 ######### User INIT ###############
-num_user = 2                                        # number of users
+num_user = 4                                        # number of users
 list_users = []                                     # list of users
 
-user1           = userobj.UserInfo(1500, 150,'AAPP','user1')
-#user1           = userobj.UserInfo(500, 10,'EEFFCC','user1')
+#user1           = userobj.UserInfo(800, 10,'PPBBCC','user1')
+#list_users.append(user1)
+#
+#user2       = userobj.UserInfo(600, 5,'EEFF', 'user2')
+#list_users.append(user2)
+#
+#user3       = userobj.UserInfo(1500, 7,'DDBBCC', 'user3')
+#list_users.append(user3)
+#
+#user4       = userobj.UserInfo(600, 13,'GGDDEEFF', 'user4')
+#list_users.append(user4)
+
+user1           = userobj.UserInfo(2500, 43,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1500, 100,'EEPP', 'user2')
-#user2       = userobj.UserInfo(400, 7,'PPBBCCQQ', 'user2')
+user2       = userobj.UserInfo(1200, 40,'EEFF', 'user2')
 list_users.append(user2)
 
-#user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
-#list_users.append(user3)
+user3       = userobj.UserInfo(1900, 35,'DDBBCC', 'user3')
+list_users.append(user3)
+
+user4       = userobj.UserInfo(1300, 74,'GGDDEEFF', 'user4')
+list_users.append(user4)
+
+
 #hpobj.print_us_info(us.list_microservice)
 
 #microservice_ordering = 'PPBBEEFFCCQQ'
-microservice_ordering = ['AA', 'EE', 'PP']
+#microservice_ordering = ['AA', 'EE', 'PP']
 #microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'AA' , 'CC', 'QQ', 'GG']
+microservice_ordering = ['PP', 'DD', 'BB', 'CC', 'EE' , 'FF']
 
 ######### Microservice INIT ###############
 
@@ -69,12 +86,23 @@ for idx_service, service in enumerate(microservice_ordering):
 
                 for service_thrice in usobj.list_microservice:
                     if service_thrice.name in que.dag:
+                        predict_queue1 = []
+                        for item in xrange(10,32):
+                            predict_queue1.append(service_thrice. \
+                                    microservice_dict[item][service_thrice.input_size])
+
                         que.single_time = que.single_time + \
-                        service_thrice.microservice_dict[1][service_thrice.input_size]
+                                np.mean(predict_queue1)
+                        #service_thrice.microservice_dict[32][service_thrice.input_size]
                         #print service_thrice.microservice_dict[1] \
                         #        [service_thrice.input_size], service_thrice.name, service_thrice.input_size
                     if service_thrice.name == service_twice.name:
-                        curr_single_time = service_thrice.microservice_dict[1][service_thrice.input_size]
+                        predict_queue2 = []
+                        for item in xrange(10,32):
+                            predict_queue2.append(service_thrice. \
+                                    microservice_dict[item][service_thrice.input_size])
+                        curr_single_time = np.mean(predict_queue2)
+                        #curr_single_time = service_thrice.microservice_dict[32][service_thrice.input_size]
 
                 if que.dag.split(service_twice.name)[0] == '':
                      prev_stage_elapsed = None
@@ -133,7 +161,12 @@ for idx_service, service in enumerate(microservice_ordering):
                     for key,value in service_twice.microservice_dict.iteritems():
                         getbatch_dict[key] = service_twice.microservice_dict[key]\
                                 [service_twice.iprange[len(service_twice.iprange)-1]]
-                        getbatch_list.append(service_twice.microservice_dict[key][service_twice.iprange[len(service_twice.iprange)-1]])
+                        getbatch_list.append(service_twice.microservice_dict[key][service_twice.input_size])
+                        #if service_twice.name == 'CC':
+                        #    print getbatch_list
+                        #    print service_twice.microservice_dict[10][5], service_twice.input_size, type(2), type(service_twice.input_size), value
+                            #print key,service_twice.input_size, service_twice.microservice_dict, value
+                    #print getbatch_list
                     index = bisect.bisect(getbatch_list, temp_slice_list[0].slack_value)
                     if index == 0:
                         index = 1
