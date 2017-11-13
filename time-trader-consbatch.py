@@ -141,7 +141,8 @@ for idx_service, service in enumerate(microservice_ordering):
                     ## index = bisect.bisect(getbatch_list, curr_slack_value)
                     ## if index == 0:
                     ##     index = 1
-                    index = 5
+                    ## CHANGE INDEX FOR BATCH SIZE
+                    index = 50
                     #print index, len(getbatch_list), getbatch_list[index-1],\
                     #        len(temp_slice_list), temp_slice_list[0].slack_value
 

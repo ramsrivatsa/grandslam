@@ -251,16 +251,16 @@ for idx_service, service in enumerate(microservice_ordering):
                     #print microservice_dict[key2][value2]
 
 for idx_service, service in enumerate(microservice_ordering):
-    #print '----------------------------------------------'
+    print '----------------------------------------------'
     #print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
-            print service_twice.name
+            #print service_twice.name
             for que in service_twice.queries:
                 #print que.userid, que.queryid, que.sla, que.batch_size, \
                 #        que.slack_value, que.elapsed_time, que.que_time, \
                 #        que.cumilative_time
-                print que.userid, que.queryid, que.sla, que.compute_time, \
-                        que.que_time, que.elapsed_time, \
+                print service, que.userid, que.queryid, que.sla, \
+                        que.compute_time, que.que_time, que.elapsed_time, \
                         que.cumilative_time

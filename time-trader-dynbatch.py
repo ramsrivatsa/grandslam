@@ -214,7 +214,7 @@ for idx_service, service in enumerate(microservice_ordering):
 
 for idx_service, service in enumerate(microservice_ordering):
     print '----------------------------------------------'
-    print service
+    #print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
