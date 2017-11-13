@@ -138,9 +138,10 @@ for idx_service, service in enumerate(microservice_ordering):
                                 [service_twice.iprange[len(service_twice.iprange)-1]]
                         getbatch_list.append(service_twice.microservice_dict[key][service_twice.input_size])
                     curr_slack_value = temp_slice_list[0].slack_value - total_elapsed_time
-                    index = bisect.bisect(getbatch_list, curr_slack_value)
-                    if index == 0:
-                        index = 1
+                    ## index = bisect.bisect(getbatch_list, curr_slack_value)
+                    ## if index == 0:
+                    ##     index = 1
+                    index = 5
                     #print index, len(getbatch_list), getbatch_list[index-1],\
                     #        len(temp_slice_list), temp_slice_list[0].slack_value
 
