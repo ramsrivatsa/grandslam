@@ -419,18 +419,23 @@ for x in xrange(1,129):
     fList = [s.strip() for s in open('/home/ram/api-as-service/grand-slam/isca-results/services/cpu/ycsb/outputfile_%s.res'%x).readlines()]
     for item in fList[1:len(fList)]:
         #print item.split(',')[len(item.split(','))-3]
-        service_data[appname][1][x].append(float(item.split(',')[len(item.split(','))-3]))
+        service_data[appname][x][1].append(float(item.split(',')[len(item.split(','))-3]))
      #print np.mean(ycsb_data[x])
+#print len(service_data['ycsb'][1])
+#print service_data['ycsb'][1]
 
+#print service_data['ycsb']
 for item in xrange(1,129):
      #temp_list.append(imc_mean['imc'][item][128])
      #print np.mean(ycsb_data[item])
-     service_mean[appname][1][item] = np.mean(service_data[appname][1][item])
-     service_std[appname][1][item] = np.std(service_data[appname][1][item])
+     service_mean[appname][item][1] = np.mean(service_data[appname][item][1])
+     service_std[appname][item][1] = np.std(service_data[appname][item][1])
 
 for x in range(1, brange+1):
     for y in ilist:
+        #print y
         hh[x][y] = service_mean['ycsb'][x][y]
+
 HH      =   MicroService(hh, 'HH', brange, ilist, 'ycsb')
 HH.microservice_data_dict = service_data['ycsb']
 list_microservice.append(HH)
@@ -478,12 +483,20 @@ for x,a in service_data.iteritems():
             del temp_list[len(temp_list)-1]
             del temp_list[len(temp_list)-1]
             #print temp_list, np.mean(temp_list)
-            if np.mean(temp_list) > 400:
+            if np.mean(temp_list) > 300:
+                #print 'aaaaaaaaaaa'
+                #print np.mean(temp_list)
                 service_std[x][y][z] = np.std(temp_list)
                 service_mean[x][y][z] = np.mean(temp_list)
             else:
-                service_std[x][y][z] = np.std(temp_list[len(temp_list)-1])
-                service_mean[x][y][z] = np.mean(temp_list[len(temp_list)-1])
+                #print x,y,z
+                if y >0:
+                    #print 'bbbbbbbbbbbbbbbb'
+                    #print np.mean(temp_list)
+                    service_std[x][y][z] = service_std[x][y-1][z]
+                    service_mean[x][y][z] =service_mean[x][y-1][z]
+
+#service_mean[x][128][z] = service_mean[x][127][z]
 
 for x in range(1, brange+1):
     for y in ilist:
@@ -491,6 +504,10 @@ for x in range(1, brange+1):
 II      =   MicroService(ii, 'II', brange, ilist, 'seq')
 II.microservice_data_dict = service_data['II']
 list_microservice.append(II)
+
+#for ele in xrange(1,129):
+#    print ele,ii[ele][1]
+
 
 service_data.clear()
 service_mean.clear()

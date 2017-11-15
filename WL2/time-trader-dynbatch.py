@@ -21,13 +21,13 @@ list_users = []                                     # list of users
 ##user4       = userobj.UserInfo(600, 13,'GGDDEEFF', 'user4')
 ##list_users.append(user4)
 
-user1           = userobj.UserInfo(2500, 10,'PPBBCC','user1')
+user1           = userobj.UserInfo(2500, 20,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1800, 30,'DDBBCCGG', 'user2')
+user2       = userobj.UserInfo(2000, 30,'DDBBCCII', 'user2')
 list_users.append(user2)
 
-user3       = userobj.UserInfo(1300, 10,'CCGG', 'user3')
+user3       = userobj.UserInfo(2000, 35,'CCII', 'user3')
 list_users.append(user3)
 
 #user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
@@ -38,7 +38,7 @@ list_users.append(user3)
 #microservice_ordering = ['PP', 'BB', 'EE', 'FF', 'AA' , 'CC', 'QQ', 'GG']
 #microservice_ordering = ['AA', 'EE', 'PP']
 #microservice_ordering = ['PP', 'DD', 'BB', 'CC', 'EE' , 'FF']
-microservice_ordering = ['PP', 'DD', 'BB', 'CC', 'GG']
+microservice_ordering = ['PP', 'DD', 'BB', 'CC', 'II']
 
 ######### Microservice INIT ###############
 
