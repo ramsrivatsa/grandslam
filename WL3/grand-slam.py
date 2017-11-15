@@ -22,13 +22,13 @@ list_users = []                                     # list of users
 #user4       = userobj.UserInfo(600, 13,'GGDDEEFF', 'user4')
 #list_users.append(user4)
 
-user1           = userobj.UserInfo(2500, 10,'PPBBHH','user1')
+user1           = userobj.UserInfo(2700, 40,'PPBBHH','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(2000, 30,'DDBBHHII', 'user2')
+user2       = userobj.UserInfo(2000, 60,'DDBBHHII', 'user2')
 list_users.append(user2)
 
-user3       = userobj.UserInfo(2000, 35,'HHII', 'user3')
+user3       = userobj.UserInfo(2000, 30,'HHII', 'user3')
 list_users.append(user3)
 
 #user4       = userobj.UserInfo(1300, 60,'GGDDEEFF', 'user4')
@@ -87,7 +87,7 @@ for idx_service, service in enumerate(microservice_ordering):
                 for service_thrice in usobj.list_microservice:
                     if service_thrice.name in que.dag:
                         predict_queue1 = []
-                        for item in xrange(10,32):
+                        for item in xrange(30,45):
                             predict_queue1.append(service_thrice. \
                                     microservice_dict[item][service_thrice.input_size])
 
@@ -98,7 +98,7 @@ for idx_service, service in enumerate(microservice_ordering):
                         #        [service_thrice.input_size], service_thrice.name, service_thrice.input_size
                     if service_thrice.name == service_twice.name:
                         predict_queue2 = []
-                        for item in xrange(10,32):
+                        for item in xrange(30,45):
                             predict_queue2.append(service_thrice. \
                                     microservice_dict[item][service_thrice.input_size])
                         curr_single_time = np.mean(predict_queue2)
