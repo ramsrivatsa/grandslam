@@ -4,7 +4,6 @@ import helpers as hpobj
 import users as userobj
 import queries as queobj
 import bisect
-import sys
 
 ######### User INIT ###############
 num_user = 4                                        # number of users
@@ -23,16 +22,16 @@ list_users = []                                     # list of users
 ##list_users.append(user4)
 
 
-user1           = userobj.UserInfo(2500, 35,'PPBBCC','user1')
+user1           = userobj.UserInfo(2500, 43,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1200, 35,'EEFF', 'user2')
+user2       = userobj.UserInfo(1200, 40,'EEFF', 'user2')
 list_users.append(user2)
 
-user3       = userobj.UserInfo(1900, 25,'DDBBCC', 'user3')
+user3       = userobj.UserInfo(1900, 35,'DDBBCC', 'user3')
 list_users.append(user3)
 
-user4       = userobj.UserInfo(1300, 77,'GGDDEEFF', 'user4')
+user4       = userobj.UserInfo(1300, 75,'GGDDEEFF', 'user4')
 list_users.append(user4)
 
 #user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
@@ -143,7 +142,7 @@ for idx_service, service in enumerate(microservice_ordering):
                     ## if index == 0:
                     ##     index = 1
                     ## CHANGE INDEX FOR BATCH SIZE
-                    index = int(sys.argv[1])
+                    index = 50
                     #print index, len(getbatch_list), getbatch_list[index-1],\
                     #        len(temp_slice_list), temp_slice_list[0].slack_value
 
@@ -217,7 +216,7 @@ for idx_service, service in enumerate(microservice_ordering):
 
 for idx_service, service in enumerate(microservice_ordering):
     print '----------------------------------------------'
-    #print service
+    print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
@@ -225,6 +224,6 @@ for idx_service, service in enumerate(microservice_ordering):
             for que in service_twice.queries:
                 #print que.userid, que.queryid, que.sla, que.batch_size,\
                 #        que.slack_value,  que.elapsed_time, que.cumilative_time
-                print service, que.userid, que.queryid, que.sla, \
-                        que.compute_time, que.que_time, que.elapsed_time, \
+                print que.userid, que.queryid, que.sla, que.compute_time, \
+                        que.que_time, que.elapsed_time, \
                         que.cumilative_time

@@ -82,8 +82,8 @@ for service in usobj.list_microservice:
 #    print temp_var.userid, temp_var.dag
 #print user1.dag, user2.dag, user3.dag
 for idx_service, service in enumerate(microservice_ordering):
-    print '----------------------------------------------'
-    print service
+    #print '----------------------------------------------'
+    #print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
