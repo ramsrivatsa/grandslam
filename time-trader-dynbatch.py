@@ -25,13 +25,13 @@ list_users = []                                     # list of users
 user1           = userobj.UserInfo(2500, 43,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1200, 40,'EEFF', 'user2')
+user2       = userobj.UserInfo(1200, 60,'EEFF', 'user2')
 list_users.append(user2)
 
 user3       = userobj.UserInfo(1900, 35,'DDBBCC', 'user3')
 list_users.append(user3)
 
-user4       = userobj.UserInfo(1300, 75,'GGDDEEFF', 'user4')
+user4       = userobj.UserInfo(1300, 60,'GGDDEEFF', 'user4')
 list_users.append(user4)
 
 #user3       = userobj.UserInfo(100, 15,'AACCGG', 'user3')
@@ -214,7 +214,7 @@ for idx_service, service in enumerate(microservice_ordering):
 
 for idx_service, service in enumerate(microservice_ordering):
     print '----------------------------------------------'
-    #print service
+    print service
     for service_twice in usobj.list_microservice:
         #print service_twice.name
         if service_twice.name == service:
@@ -222,6 +222,9 @@ for idx_service, service in enumerate(microservice_ordering):
             for que in service_twice.queries:
                 #print que.userid, que.queryid, que.sla, que.batch_size,\
                 #        que.slack_value,  que.elapsed_time, que.cumilative_time
-                print que.userid, que.queryid, que.sla, que.compute_time, \
-                        que.que_time, que.elapsed_time, \
+                #print que.userid, que.queryid, que.sla, que.compute_time, \
+                #        que.que_time, que.elapsed_time, \
+                #        que.cumilative_time
+                print service, que.userid, que.queryid, que.sla, \
+                        que.compute_time, que.que_time, que.elapsed_time, \
                         que.cumilative_time

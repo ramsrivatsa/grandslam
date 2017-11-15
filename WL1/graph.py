@@ -213,7 +213,7 @@ plt.axhline(y=2500.0, color='k', ls='--')
 plt.ylabel('Latency (ms)')
 plt.xticks(np.arange(len(xticks))+width, xticks, fontsize=10, ha='center')
 plt.ylim(0,ylim)
-plt.savefig('done2.png', bbox_inches='tight',  dpi=125)
+plt.savefig('stacked.pdf', bbox_inches='tight',  dpi=125)
 
 #p1 = plt.bar(np.arange(len(avg_list[0])),avg_list[0] , width, color='r')
 #p2 = plt.bar(np.arange(len(avg_list[1])),avg_list[1] ,  width, bottom=avg_list[0],color='y')

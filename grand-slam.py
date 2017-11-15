@@ -25,13 +25,13 @@ list_users = []                                     # list of users
 user1           = userobj.UserInfo(2500, 43,'PPBBCC','user1')
 list_users.append(user1)
 
-user2       = userobj.UserInfo(1200, 40,'EEFF', 'user2')
+user2       = userobj.UserInfo(1200, 60,'EEFF', 'user2')
 list_users.append(user2)
 
 user3       = userobj.UserInfo(1900, 35,'DDBBCC', 'user3')
 list_users.append(user3)
 
-user4       = userobj.UserInfo(1300, 74,'GGDDEEFF', 'user4')
+user4       = userobj.UserInfo(1300, 60,'GGDDEEFF', 'user4')
 list_users.append(user4)
 
 
